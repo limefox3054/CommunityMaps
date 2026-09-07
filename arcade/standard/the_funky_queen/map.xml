@@ -1,6 +1,6 @@
 <map proto="1.5.0">
 <name>The Funky Queen</name>
-<version>1.1.7</version>
+<version>1.1.5</version>
 <objective>Be the best funky player, and become the Queen of Funky!</objective>
 <created>2025-09-29</created>
 <game>Tournament</game>
@@ -4754,9 +4754,11 @@
         </action>
     </action>
     <action id="announce-minigame" scope="match" expose="true">
-        <message text="${ANNOUNCER_PREFIX} {m} {by} {a}" title="{m}" subtitle="{by} {a}">
+        <message text="Round `a{r}/{t}`r: ${ANNOUNCER_PREFIX} {m} {by} {a}" title="{m}" subtitle="{by} {a}">
             <replacements>
                 <replacement id="m">minigames-replacement</replacement>
+                <decimal id="r" value="current_round + 1"/>
+                <decimal id="t" value="rounds_amount"/>
                 <switch id="by" value="current_minigame">
                     <case match="${MG_DROPPER}" result="from`r"/>
                     <fallback>by`r</fallback>
@@ -6866,7 +6868,7 @@
     <trigger action="tp_seed:=floor(random() * 4) + 1" filter="playing-mobarena" scope="player" observers="true"/>
     <trigger filter="round-preparing" scope="match">
         <action>
-            <action filter="all(current_round=2..,not(multiplier=2..))">
+            <action filter="all(current_round=2..,not(multiplier=3..))">
                 <set var="multiplier" value="multiplier + 0.25"/>
             </action>
 
@@ -7354,6 +7356,10 @@
         <case match="1.5" result="`a`l1.5x`r"/>
         <case match="1.75" result="`a`l1.75x`r"/>
         <case match="2" result="`6`l2x`r"/>
+        <case match="2.25" result="`6`l2.25x`r"/>
+        <case match="2.5" result="`6`l2.5x`r"/>
+        <case match="2.75" result="`6`l2.75x`r"/>
+        <case match="3" result="`b`l3x`r"/>
     </switch>
     <switch id="minigames-replacement" value="current_minigame" scope="match">
         <case match="${MG_RLGL}" result="`e`lRed Light, Green Light"/>
