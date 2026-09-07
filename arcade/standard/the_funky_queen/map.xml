@@ -1,6 +1,6 @@
 <map proto="1.5.0">
 <name>The Funky Queen</name>
-<version>1.1.8</version>
+<version>1.1.9</version>
 <objective>Be the best funky player, and become the Queen of Funky!</objective>
 <created>2025-09-29</created>
 <game>Tournament</game>
@@ -4754,7 +4754,7 @@
         </action>
     </action>
     <action id="announce-minigame" scope="match" expose="true">
-        <message text="Round `a{r}/{t}`r: ${ANNOUNCER_PREFIX} {m} {by} {a}" title="{m}" subtitle="{by} {a}">
+        <message text="${ANNOUNCER_PREFIX} `r`fRound `a{r}/{t}`r: {m} {by} {a}" title="{m}" subtitle="{by} {a}">
             <replacements>
                 <replacement id="m">minigames-replacement</replacement>
                 <decimal id="r" value="current_round + 1"/>
