@@ -57,12 +57,14 @@
     </default>
 </spawns>
 <filters>
-    <!-- used with deny inline filters to prevent block destruction caused by water flow -->
-    <all id="not-water-cause-world">
+    <all id="not-materials-cause-world"> <!-- should be used with deny inline filters -->
         <not>
             <any>
+                <!-- prevent block destruction caused by water flow -->
                 <material>water</material>
                 <material>stationary water</material>
+                <!-- make iron block renewable in the wool rooms -->
+                <material>iron block</material>
             </any>
         </not>
         <cause>world</cause>
@@ -71,6 +73,7 @@
         <any>
             <material id="only-air">air</material>
             <material>stained glass pane</material>
+            <material>iron block</material>
             <material>redstone wire</material>
             <material>redstone torch on</material>
         </any>
@@ -104,40 +107,32 @@
             <block id="blue-team-green-wool">74,9,-3</block>
         </union>
     </complement>
-    <complement id="wool-rooms">
-        <union>
-            <union id="red-wool-rooms"> <!-- blue capture, red defend -->
-                <complement id="lime-wool-room">
-                    <cuboid min="-112,0,24" max="-100,32,36"/>
-                    <half origin="-113,0,26" normal="-1,0,-3"/>
-                    <half origin="-113,0,34" normal="-1,0,3"/>
-                </complement>
-                <complement id="green-wool-room">
-                    <cuboid min="-112,0,-36" max="-100,32,-24"/>
-                    <half origin="-113,0,-34" normal="-1,0,-3"/>
-                    <half origin="-113,0,-26" normal="-1,0,3"/>
-                </complement>
-            </union>
-            <union id="blue-wool-rooms"> <!-- red capture, blue defend -->
-                <complement id="yellow-wool-room">
-                    <cuboid min="100,0,-36" max="112,32,-24"/>
-                    <half origin="113,0,-26" normal="1,0,3"/>
-                    <half origin="113,0,-34" normal="1,0,-3"/>
-                </complement>
-                <complement id="orange-wool-room">
-                    <cuboid min="100,0,24" max="112,32,36"/>
-                    <half origin="113,0,34" normal="1,0,3"/>
-                    <half origin="113,0,26" normal="1,0,-3"/>
-                </complement>
-            </union>
+    <union id="wool-rooms">
+        <union id="red-wool-rooms"> <!-- blue capture, red defend -->
+            <complement id="lime-wool-room">
+                <cuboid min="-112,0,24" max="-100,32,36"/>
+                <half origin="-113,0,26" normal="-1,0,-3"/>
+                <half origin="-113,0,34" normal="-1,0,3"/>
+            </complement>
+            <complement id="green-wool-room">
+                <cuboid min="-112,0,-36" max="-100,32,-24"/>
+                <half origin="-113,0,-34" normal="-1,0,-3"/>
+                <half origin="-113,0,-26" normal="-1,0,3"/>
+            </complement>
         </union>
-        <union id="wool-room-irons">
-            <cuboid min="-110,12,31" max="-108,14,33"/> <!-- lime -->
-            <cuboid min="-110,12,-33" max="-108,14,-31"/> <!-- green -->
-            <cuboid min="108,12,-33" max="110,14,-31"/> <!-- yellow -->
-            <cuboid min="108,12,31" max="110,14,33"/> <!-- orange -->
+        <union id="blue-wool-rooms"> <!-- red capture, blue defend -->
+            <complement id="yellow-wool-room">
+                <cuboid min="100,0,-36" max="112,32,-24"/>
+                <half origin="113,0,-26" normal="1,0,3"/>
+                <half origin="113,0,-34" normal="1,0,-3"/>
+            </complement>
+            <complement id="orange-wool-room">
+                <cuboid min="100,0,24" max="112,32,36"/>
+                <half origin="113,0,34" normal="1,0,3"/>
+                <half origin="113,0,26" normal="1,0,-3"/>
+            </complement>
         </union>
-    </complement>
+    </union>
     <negative id="restricted-void-area">
         <union> <!-- buildable void area -->
             <rectangle min="-95,-44" max="-53,-36"/>
@@ -166,7 +161,7 @@
     <apply enter="red-team" region="blue-wool-rooms" message="You may not enter your team's own wool rooms!"/>
     <apply enter="blue-team" region="red-wool-rooms" message="You may not enter your team's own wool rooms!"/>
     <apply block-place="only-iron-renew" block-break="only-iron" region="spawns" message="You may only break iron blocks in the spawn!"/>
-    <apply block="deny(not-water-cause-world)" region="wool-rooms"/>
+    <apply block="deny(not-materials-cause-world)" region="wool-rooms"/>
     <apply block="deny(blue-team)" region="blue-wool-rooms" message="You may not modify your team's own wool rooms!"/>
     <apply block="deny(red-team)" region="red-wool-rooms" message="You may not modify your team's own wool rooms!"/>
     <apply block="wool-room-blocks" region="wool-rooms" message="You may not modify the wool rooms!"/>
@@ -194,7 +189,7 @@
 </spawners>
 <renewables>
     <renewable region="spawns" renew-filter="only-iron"/>
-    <renewable region="wool-room-irons" renew-filter="only-iron" replace-filter="only-air" avoid-players="1"/>
+    <renewable region="wool-rooms" renew-filter="only-iron" replace-filter="only-air" avoid-players="1"/>
 </renewables>
 <toolrepair>
     <tool>iron sword</tool>
